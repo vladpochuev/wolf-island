@@ -5,7 +5,7 @@ namespace WolfIsland.Environment
 {
     public class Island
     {
-        private Biome[,] Map { get; set; }
+        public Biome[,] Map { get; set; }
         private Random Random { get; set; }
 
         public Island()
@@ -40,19 +40,6 @@ namespace WolfIsland.Environment
                         Map[i, j] = new Ocean();
                     }
                 }
-            }
-        }
-
-        public void DrawMap()
-        {
-            for (int i = 0; i < Map.GetLength(0); i++)
-            {
-                for (int j = 0; j < Map.GetLength(1); j++)
-                {
-                    Console.Write(Map[i, j].GetType() == typeof(Plain) ? 'p' : 'o');
-                }
-
-                Console.WriteLine();
             }
         }
     }

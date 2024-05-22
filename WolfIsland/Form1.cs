@@ -4,17 +4,50 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WolfIsland.Environment;
 
 namespace WolfIsland
 {
     public partial class Form1 : Form
     {
+        private int FieldHeight { get; set; } = 800;
+        private int FieldWidth { get; set; } = 800;
+
         public Form1()
         {
             InitializeComponent();
+            Init();
+        }
+
+        private void Init()
+        {
+            Island island = new Island();
+            Biome[,] biomes = island.Map;
+            DrawBiomes(biomes);
+        }
+
+        private void DrawBiomes(Biome[,] biomes)
+        {
+            for (int i = 0; i < biomes.GetLength(0); i++)
+            {
+                for (int j = 0; j < biomes.GetLength(1); j++)
+                {
+                    DrawBiome(i, j, biomes[i, j].Color);
+                }
+            }
+        }
+
+        private void DrawBiome(int x, int y, Color color)
+        {
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.BackColor = color;
+            pictureBox.Location = new Point(x * FieldWidth / 20, y * FieldHeight / 20);
+            pictureBox.Size = new Size(FieldWidth / 20, FieldHeight / 20);
+            Controls.Add(pictureBox);
         }
     }
 }
