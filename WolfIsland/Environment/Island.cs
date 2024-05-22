@@ -1,26 +1,42 @@
 using System;
-using System.Xml.Schema;
+using System.Collections.Generic;
+using WolfIsland.Animals;
 
 namespace WolfIsland.Environment
 {
-    public class Island
+    public class Island : IMap
     {
         public Biome[,] Map { get; set; }
+        private List<Animal> Animals { get; set; }
         private Random Random { get; set; }
 
         public Island()
         {
-            Map = new Biome[20,20];
+            Map = new Biome[20, 20];
+            Animals = new List<Animal>();
             Random = new Random();
             FillMap();
         }
 
-        public void CreateAnimal()
+        public void MakeAnimalsMove()
+        {
+            foreach (var animal in Animals)
+            {
+                animal.MakeMove(this);
+            }
+        }
+
+        public void SetBiome(int x, int y, Biome biome)
+        {
+            Map[x, y] = biome;
+        }
+
+        public void CreateAnimal(Animal animal)
         {
 
         }
 
-        public void RemoveAnimal()
+        public void RemoveAnimal(Animal animal)
         {
 
         }

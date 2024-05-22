@@ -58,8 +58,10 @@
         <Compile Include="Form1.Designer.cs">
             <DependentUpon>Form1.cs</DependentUpon>
         </Compile>
+        <Compile Include="IMap.cs" />
         <Compile Include="IMovable.cs" />
         <Compile Include="IPlaceable.cs" />
+        <Compile Include="LifeCycle.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <EmbeddedResource Include="Form1.resx">

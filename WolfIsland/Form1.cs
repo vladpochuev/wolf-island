@@ -16,6 +16,8 @@ namespace WolfIsland
     {
         private int FieldHeight { get; set; } = 800;
         private int FieldWidth { get; set; } = 800;
+        private Island Island { get; set; }
+        private LifeCycle LifeCycle { get; set; }
 
         public Form1()
         {
@@ -25,13 +27,15 @@ namespace WolfIsland
 
         private void Init()
         {
-            Island island = new Island();
-            Biome[,] biomes = island.Map;
-            DrawBiomes(biomes);
+            Island = new Island();
+            LifeCycle = new LifeCycle(Island);
+
+            DrawBiomes();
         }
 
-        private void DrawBiomes(Biome[,] biomes)
+        private void DrawBiomes()
         {
+            Biome[,] biomes = Island.Map;
             for (int i = 0; i < biomes.GetLength(0); i++)
             {
                 for (int j = 0; j < biomes.GetLength(1); j++)
@@ -48,6 +52,11 @@ namespace WolfIsland
             pictureBox.Location = new Point(x * FieldWidth / 20, y * FieldHeight / 20);
             pictureBox.Size = new Size(FieldWidth / 20, FieldHeight / 20);
             Controls.Add(pictureBox);
+        }
+
+        private void toolStripNext_Click(object sender, EventArgs e)
+        {
+            LifeCycle.MakeNextMove();
         }
     }
 }
