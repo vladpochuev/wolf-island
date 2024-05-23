@@ -4,6 +4,6 @@ namespace WolfIsland
 {
     public interface IMovable
     {
-        void MakeMove(Island island);
+        void MakeMove();
     }
 }

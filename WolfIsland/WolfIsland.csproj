@@ -48,6 +48,7 @@
     <ItemGroup>
         <Compile Include="Animals\Animal.cs" />
         <Compile Include="Animals\Rabbit.cs" />
+        <Compile Include="Direction.cs" />
         <Compile Include="Environment\Biome.cs" />
         <Compile Include="Environment\Island.cs" />
         <Compile Include="Environment\Ocean.cs" />
