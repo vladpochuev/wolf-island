@@ -47,7 +47,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Animals\Animal.cs" />
+        <Compile Include="Animals\Predator.cs" />
         <Compile Include="Animals\Rabbit.cs" />
+        <Compile Include="Animals\Wolf.cs" />
+        <Compile Include="Animals\WolfF.cs" />
         <Compile Include="Direction.cs" />
         <Compile Include="Environment\Biome.cs" />
         <Compile Include="Environment\Island.cs" />
@@ -59,9 +62,9 @@
         <Compile Include="Form1.Designer.cs">
             <DependentUpon>Form1.cs</DependentUpon>
         </Compile>
-        <Compile Include="IMap.cs" />
-        <Compile Include="IMovable.cs" />
-        <Compile Include="IPlaceable.cs" />
+        <Compile Include="Interfaces\IMap.cs" />
+        <Compile Include="Interfaces\IMovable.cs" />
+        <Compile Include="Interfaces\IPlaceable.cs" />
         <Compile Include="LifeCycle.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>

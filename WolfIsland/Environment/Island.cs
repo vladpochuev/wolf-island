@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using WolfIsland.Animals;
+using WolfIsland.Interfaces;
 
 namespace WolfIsland.Environment
 {
@@ -13,7 +15,7 @@ namespace WolfIsland.Environment
         public Island()
         {
             Biomes = new Biome[20, 20];
-            Animals = new List<Animal> {new Rabbit(5, 5, this)};
+            Animals = new List<Animal> {new Rabbit(5, 5, this), new WolfF(10, 10, this), new Rabbit(10, 10, this), new Rabbit(10, 10, this)};
             Random = new Random();
             FillMapRandom();
         }
@@ -29,6 +31,20 @@ namespace WolfIsland.Environment
         public void SetBiome(int x, int y, Biome biome)
         {
             Biomes[x, y] = biome;
+        }
+
+        public List<Animal> GetAnimalsInPoint(Point point)
+        {
+            List<Animal> animalsInPoint = new List<Animal>();
+            foreach (var animal in Animals)
+            {
+                if (animal.X == point.X && animal.Y == point.Y)
+                {
+                    animalsInPoint.Add(animal);
+                }
+            }
+
+            return animalsInPoint;
         }
 
         public void CreateAnimal(Animal animal)

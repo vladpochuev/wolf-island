@@ -1,5 +1,6 @@
 using System;
 using WolfIsland.Environment;
+using WolfIsland.Interfaces;
 
 namespace WolfIsland
 {

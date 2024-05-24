@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using WolfIsland.Environment;
+using WolfIsland.Interfaces;
 
 namespace WolfIsland.Animals
 {
@@ -9,29 +11,17 @@ namespace WolfIsland.Animals
         private double CHANCE_OF_BREEADING = 0.2;
         public override List<Type> SuitableBiomes { get; } = new List<Type> { typeof(Plain) };
         public override string Symbol { get; set; } = "\ud83d\udc07";
+        public override Color SymbolColor { get; set; } = Color.White;
         protected override IMap Map { get; set; }
-        private Random Random { get; }
 
         public Rabbit(int x, int y, IMap map) : base(x, y, map)
         {
-            Random = new Random();
         }
 
         public override void MakeMove()
         {
             Move();
             Breed();
-        }
-
-        private void Move()
-        {
-            bool isBiomeValid;
-            do
-            {
-                int randomInt = Random.Next(8);
-                Direction direction = (Direction)randomInt;
-                isBiomeValid = ChangeLocation(direction);
-            } while (!isBiomeValid);
         }
 
         private void Breed()

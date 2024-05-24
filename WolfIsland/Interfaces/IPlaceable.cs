@@ -1,4 +1,4 @@
-namespace WolfIsland
+namespace WolfIsland.Interfaces
 {
     public interface IPlaceable
     {

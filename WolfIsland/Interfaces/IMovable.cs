@@ -1,6 +1,4 @@
-using WolfIsland.Environment;
-
-namespace WolfIsland
+namespace WolfIsland.Interfaces
 {
     public interface IMovable
     {

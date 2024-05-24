@@ -26,15 +26,14 @@ namespace WolfIsland
 
         public Form1()
         {
-            CellHeight = FieldHeight / 20;
-            CellWidth = FieldWidth / 20;
-
             InitializeComponent();
-            Init();
+            InitializeFields();
         }
 
-        private void Init()
+        private void InitializeFields()
         {
+            CellHeight = FieldHeight / 20;
+            CellWidth = FieldWidth / 20;
             AnimalSymbols = new List<Label>();
             Island = new Island();
             LifeCycle = new LifeCycle(Island);
@@ -49,30 +48,22 @@ namespace WolfIsland
 
             foreach (var animal in animals)
             {
-                DrawAnimal(animal.X, animal.Y, animal.Symbol);
+                DrawAnimal(animal);
             }
         }
 
-        private void DrawAnimal(int x, int y, string symbol)
+        private void DrawAnimal(Animal animal)
         {
             Label label = new Label();
             AnimalSymbols.Add(label);
-            label.Text = Convert.ToString(symbol);
-            label.ForeColor = Color.White;
-            label.BackColor = Island.Biomes[x, y].Color;
+            label.Text = Convert.ToString(animal.Symbol);
+            label.ForeColor = animal.SymbolColor;
+            label.BackColor = Island.Biomes[animal.X, animal.Y].Color;
             label.Font = new Font("Arial", 15, FontStyle.Bold);
             label.AutoSize = true;
-            label.Location = new Point((int)(x * CellWidth + 0.15 * CellWidth), (int)(y * CellHeight + 0.15 * CellHeight + MarginHeight));
+            label.Location = new Point((int)(animal.X * CellWidth + 0.15 * CellWidth), (int)(animal.Y * CellHeight + 0.15 * CellHeight + MarginHeight));
             Controls.Add(label);
             label.BringToFront();
-        }
-
-        private void RemoveAnimalsFromMap()
-        {
-            foreach (var label in AnimalSymbols)
-            {
-                Controls.Remove(label);
-            }
         }
 
         private void DrawBiomes()
@@ -94,6 +85,14 @@ namespace WolfIsland
             pictureBox.Location = new Point(x * CellWidth, y * CellHeight + MarginHeight);
             pictureBox.Size = new Size(CellWidth, CellHeight);
             Controls.Add(pictureBox);
+        }
+
+        private void RemoveAnimalsFromMap()
+        {
+            foreach (var label in AnimalSymbols)
+            {
+                Controls.Remove(label);
+            }
         }
 
         private void toolStripNext_Click(object sender, EventArgs e)
