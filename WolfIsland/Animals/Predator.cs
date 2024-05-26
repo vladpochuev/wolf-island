@@ -7,9 +7,13 @@ namespace WolfIsland.Animals
 {
     public abstract class Predator : Animal
     {
-        public abstract List<Type> Hunts {get; set;}
+        public abstract List<Type> Hunts { get; set; }
         protected abstract double Score { get; set; }
         protected abstract double ScoreReducing { get; set; }
+
+        protected Predator(int x, int y, IMap map) : base(x, y, map)
+        {
+        }
 
         protected bool TryHunt()
         {
@@ -24,7 +28,7 @@ namespace WolfIsland.Animals
                 {
                     if (Hunts.Contains(animal.GetType()))
                     {
-                        Hunt(direction, animal);
+                        Hunt(animal, direction);
                         return true;
                     }
                 }
@@ -33,17 +37,18 @@ namespace WolfIsland.Animals
             return false;
         }
 
-        protected void Hunt(Direction direction, Animal animal)
+        private void Hunt(Animal animal, Direction direction)
         {
             if (X == animal.X && Y == animal.Y)
             {
                 Eat(animal);
                 return;
             }
+
             ChangeLocation(direction);
         }
 
-        protected void Eat(Animal animal)
+        private void Eat(Animal animal)
         {
             Score++;
             Map.RemoveAnimal(animal);
@@ -58,13 +63,9 @@ namespace WolfIsland.Animals
             }
         }
 
-        protected void StarveToDeath()
+        private void StarveToDeath()
         {
             Map.RemoveAnimal(this);
-        }
-
-        protected Predator(int x, int y, IMap map) : base(x, y, map)
-        {
         }
     }
 }

@@ -2,6 +2,7 @@ namespace WolfIsland
 {
     public enum Direction
     {
+        Center,
         Top,
         RightTop,
         Right,
@@ -9,7 +10,6 @@ namespace WolfIsland
         Bottom,
         LeftBottom,
         Left,
-        LeftTop,
-        Center
+        LeftTop
     }
 }

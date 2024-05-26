@@ -52,7 +52,7 @@ namespace WolfIsland.Animals
             return false;
         }
 
-        protected Point GetCoordinatesWithDirection(Direction direction)
+        protected static Point GetCoordinatesWithDirection(Direction direction)
         {
             Dictionary<Direction, Point> dictionary = new Dictionary<Direction, Point>
             {

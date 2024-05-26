@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using WolfIsland.Interfaces;
 
@@ -7,8 +5,11 @@ namespace WolfIsland.Animals
 {
     public class WolfF : Wolf
     {
-        public override List<Type> Hunts { get; set; } = new List<Type> { typeof(Rabbit) };
         public override Color SymbolColor { get; set; } = Color.HotPink;
+
+        public WolfF(int x, int y, IMap map) : base(x, y, map)
+        {
+        }
 
         public override void MakeMove()
         {
@@ -17,10 +18,6 @@ namespace WolfIsland.Animals
                 Move();
             }
             Starve();
-        }
-
-        public WolfF(int x, int y, IMap map) : base(x, y, map)
-        {
         }
     }
 }

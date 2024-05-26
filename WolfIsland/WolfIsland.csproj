@@ -51,6 +51,7 @@
         <Compile Include="Animals\Rabbit.cs" />
         <Compile Include="Animals\Wolf.cs" />
         <Compile Include="Animals\WolfF.cs" />
+        <Compile Include="Animals\WolfM.cs" />
         <Compile Include="Direction.cs" />
         <Compile Include="Environment\Biome.cs" />
         <Compile Include="Environment\Island.cs" />
@@ -62,6 +63,7 @@
         <Compile Include="Form1.Designer.cs">
             <DependentUpon>Form1.cs</DependentUpon>
         </Compile>
+        <Compile Include="Interfaces\IBreedable.cs" />
         <Compile Include="Interfaces\IMap.cs" />
         <Compile Include="Interfaces\IMovable.cs" />
         <Compile Include="Interfaces\IPlaceable.cs" />
