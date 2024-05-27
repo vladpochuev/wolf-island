@@ -9,26 +9,28 @@ namespace WolfIsland
 {
     public partial class Form1 : Form
     {
-        private const int FieldHeight = 800;
-        private const int FieldWidth = 800;
-        private const int MarginHeight = 50;
+        private int FieldHeight { get; set; }
+        private int FieldWidth { get; set; }
+        private const int MarginHeight = 35;
         private int CellHeight { get; set; }
         private int CellWidth { get; set; }
         private Island Island { get; set; }
         private LifeCycle LifeCycle { get; set; }
-        private List<Label> AnimalSymbols { get; set; }
+        private List<Label> AnimalLabels { get; set; }
+        private List<Animal>[,] AnimalsInCells = new List<Animal>[20, 20];
 
         public Form1()
         {
             InitializeComponent();
-            InitializeFields();
         }
 
         private void InitializeFields()
         {
+            FieldHeight = Height - MarginHeight - 30;
+            FieldWidth = FieldHeight;
             CellHeight = FieldHeight / 20;
             CellWidth = FieldWidth / 20;
-            AnimalSymbols = new List<Label>();
+            AnimalLabels = new List<Label>();
             Island = new Island();
             LifeCycle = new LifeCycle(Island);
 
@@ -38,26 +40,71 @@ namespace WolfIsland
 
         private void DrawAnimals()
         {
+            PutAnimalsInCells();
+            DrawCells();
+        }
+
+        private void PutAnimalsInCells()
+        {
             List<Animal> animals = Island.Animals;
 
             foreach (var animal in animals)
             {
-                DrawAnimal(animal);
+                if (AnimalsInCells[animal.X, animal.Y] == null)
+                {
+                    AnimalsInCells[animal.X, animal.Y] = new List<Animal>();
+                }
+
+                AnimalsInCells[animal.X, animal.Y].Add(animal);
             }
         }
 
-        private void DrawAnimal(Animal animal)
+        private void DrawCells()
         {
-            Label label = new Label();
-            AnimalSymbols.Add(label);
-            label.Text = Convert.ToString(animal.Symbol);
-            label.ForeColor = animal.SymbolColor;
-            label.BackColor = Island.Biomes[animal.X, animal.Y].Color;
-            label.Font = new Font("Arial", 15, FontStyle.Bold);
-            label.AutoSize = true;
-            label.Location = new Point((int)(animal.X * CellWidth + 0.15 * CellWidth), (int)(animal.Y * CellHeight + 0.15 * CellHeight + MarginHeight));
-            Controls.Add(label);
-            label.BringToFront();
+            for (var i = 0; i < AnimalsInCells.GetLength(0); i++)
+            {
+                for (var j = 0; j < AnimalsInCells.GetLength(1); j++)
+                {
+                    DrawAnimalsInCell(AnimalsInCells[i, j]);
+                }
+            }
+        }
+
+        private void DrawAnimalsInCell(List<Animal> animalsInCell)
+        {
+            if (animalsInCell == null || animalsInCell.Count == 0) return;
+
+            List<List<Animal>> typesOfAnimals = new List<List<Animal>>();
+            List<Type> usedAnimals = new List<Type>();
+
+            foreach (var a in animalsInCell)
+            {
+                int animalTypeId = usedAnimals.IndexOf(a.GetType());
+                if (animalTypeId == -1)
+                {
+                    usedAnimals.Add(a.GetType());
+                    typesOfAnimals.Add(new List<Animal>());
+                    animalTypeId = typesOfAnimals.Count - 1;
+                }
+
+                typesOfAnimals[animalTypeId].Add(a);
+            }
+
+            for (var i = 0; i < typesOfAnimals.Count; i++)
+            {
+                List<Animal> typesOfAnimal = typesOfAnimals[i];
+                Animal animal = typesOfAnimal[0];
+                Label label = new Label();
+                AnimalLabels.Add(label);
+                label.Text = typesOfAnimal.Count + Convert.ToString(animal.Symbol);
+                label.ForeColor = animal.SymbolColor;
+                label.BackColor = Island.Biomes[animal.X, animal.Y].Color;
+                label.Font = new Font("Arial", (int) (CellHeight / 6), FontStyle.Bold);
+                label.AutoSize = true;
+                label.Location = new Point(animal.X * CellWidth, animal.Y * CellHeight + MarginHeight + i * (CellHeight / typesOfAnimals.Count));
+                Controls.Add(label);
+                label.BringToFront();
+            }
         }
 
         private void DrawBiomes()
@@ -83,10 +130,13 @@ namespace WolfIsland
 
         private void RemoveAnimalsFromMap()
         {
-            foreach (var label in AnimalSymbols)
+            foreach (var label in AnimalLabels)
             {
                 Controls.Remove(label);
             }
+
+            AnimalLabels = new List<Label>();
+            AnimalsInCells = new List<Animal>[20, 20];
         }
 
         private void toolStripNext_Click(object sender, EventArgs e)
@@ -94,6 +144,11 @@ namespace WolfIsland
             RemoveAnimalsFromMap();
             LifeCycle.MakeNextMove();
             DrawAnimals();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            InitializeFields();
         }
     }
 }

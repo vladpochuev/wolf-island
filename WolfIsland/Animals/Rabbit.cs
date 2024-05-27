@@ -29,7 +29,9 @@ namespace WolfIsland.Animals
             int randomInt = Random.Next(99);
             if (randomInt < ChanceOfBreeding * 100)
             {
-                Map.CreateAnimal(new Rabbit(X, Y, Map));
+                Rabbit child = new Rabbit(X, Y, Map);
+                Map.CreateAnimal(child);
+                Console.WriteLine($"{child.GetType().Name + child.Id} was born by {GetType().Name + Id}");
             }
         }
     }

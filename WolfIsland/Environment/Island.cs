@@ -15,7 +15,17 @@ namespace WolfIsland.Environment
         public Island()
         {
             Biomes = new Biome[20, 20];
-            Animals = new List<Animal> {new WolfM(8, 8, this), new WolfF(7, 7, this), new Rabbit(9, 9, this), new Rabbit(5, 5, this), new Rabbit(9, 10, this)};
+            Animals = new List<Animal>
+            {
+                new Rabbit(5, 5, this),
+                new WolfF(5, 5, this),
+                new Rabbit(4, 4, this),
+                new Rabbit(3, 3, this),
+                new WolfF(8, 8, this),
+                new Rabbit(8, 8, this),
+                new Rabbit(10, 10, this),
+                new WolfM(5, 5, this)
+            };
             Random = new Random();
             FillMapRandom();
         }

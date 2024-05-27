@@ -62,6 +62,7 @@ namespace WolfIsland.Animals
                 }
 
                 Map.CreateAnimal(child);
+                Console.WriteLine($"{child.GetType().Name + child.Id} was born by {GetType().Name + Id} and {animal.GetType().Name + Id}");
                 return;
             }
 

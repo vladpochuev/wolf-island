@@ -52,6 +52,7 @@ namespace WolfIsland.Animals
         {
             Score++;
             Map.RemoveAnimal(animal);
+            Console.WriteLine($"{animal.GetType().Name + animal.Id} was killed by {GetType().Name + Id}");
         }
 
         protected void Starve()
@@ -66,6 +67,7 @@ namespace WolfIsland.Animals
         private void StarveToDeath()
         {
             Map.RemoveAnimal(this);
+            Console.WriteLine($"Animal {GetType().Name + Id} starved to death");
         }
     }
 }
