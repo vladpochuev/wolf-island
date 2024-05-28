@@ -16,9 +16,12 @@ namespace WolfIsland
 
         public void MakeNextMove()
         {
+            long start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             Map.MakeAnimalsMove();
             NumberOfMoves++;
             Console.WriteLine("Move number " + NumberOfMoves + " was successfully completed");
+            long diff = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - start;
+            Console.WriteLine("Move took " + diff + " ms");
         }
     }
 }

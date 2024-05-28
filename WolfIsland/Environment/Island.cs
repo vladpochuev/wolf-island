@@ -10,31 +10,50 @@ namespace WolfIsland.Environment
     {
         public Biome[,] Biomes { get; set; }
         public List<Animal> Animals { get; set; }
+        public List<Animal>[,] AnimalsInCells { get; set; }
         private Random Random { get; set; }
 
         public Island()
         {
             Biomes = new Biome[20, 20];
-            Animals = new List<Animal>
+            Animals = new List<Animal>();
+            for (int i = 0; i < 10; i++)
             {
-                new Rabbit(5, 5, this),
-                new WolfF(5, 5, this),
-                new Rabbit(4, 4, this),
-                new Rabbit(3, 3, this),
-                new WolfF(8, 8, this),
-                new Rabbit(8, 8, this),
-                new Rabbit(10, 10, this),
-                new WolfM(5, 5, this)
-            };
+                Animals.Add(new Rabbit(5, 5, this));
+                Animals.Add(new WolfF(5, 5, this));
+                Animals.Add(new WolfM(5, 5, this));
+            }
+            AnimalsInCells = new List<Animal>[20, 20];
             Random = new Random();
+            FillCellsWithAnimals();
             FillMapRandom();
+        }
+
+        private void FillCellsWithAnimals()
+        {
+            for (var i = 0; i < AnimalsInCells.GetLength(0); i++)
+            {
+                for (var j = 0; j < AnimalsInCells.GetLength(1); j++)
+                {
+                    AnimalsInCells[i, j] = new List<Animal>();
+                }
+            }
+
+            foreach (var animal in Animals)
+            {
+                AnimalsInCells[animal.X, animal.Y].Add(animal);
+            }
         }
 
         public void MakeAnimalsMove()
         {
             foreach (var animal in Animals.ToArray())
             {
-                animal.MakeMove();
+                if (RemoveAnimal(animal))
+                {
+                    animal.MakeMove();
+                    CreateAnimal(animal);
+                }
             }
         }
 
@@ -45,26 +64,19 @@ namespace WolfIsland.Environment
 
         public List<Animal> GetAnimalsInPoint(Point point)
         {
-            List<Animal> animalsInPoint = new List<Animal>();
-            foreach (var animal in Animals)
-            {
-                if (animal.X == point.X && animal.Y == point.Y)
-                {
-                    animalsInPoint.Add(animal);
-                }
-            }
-
-            return animalsInPoint;
+            return AnimalsInCells[point.X, point.Y];
         }
 
         public void CreateAnimal(Animal animal)
         {
             Animals.Add(animal);
+            AnimalsInCells[animal.X, animal.Y].Add(animal);
         }
 
-        public void RemoveAnimal(Animal animal)
+        public bool RemoveAnimal(Animal animal)
         {
             Animals.Remove(animal);
+            return AnimalsInCells[animal.X, animal.Y].Remove(animal);
         }
 
         private void FillMapRandom()
@@ -83,6 +95,8 @@ namespace WolfIsland.Environment
                     }
                 }
             }
+
+            Biomes[5, 5] = new Plain();
         }
     }
 }

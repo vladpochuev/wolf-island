@@ -7,7 +7,7 @@ namespace WolfIsland.Animals
 {
     public abstract class Predator : Animal
     {
-        public abstract List<Type> Hunts { get; set; }
+        public abstract HashSet<Type> Hunts { get; set; }
         protected abstract double Score { get; set; }
         protected abstract double ScoreReducing { get; set; }
 
@@ -22,6 +22,8 @@ namespace WolfIsland.Animals
                 Point point = GetCoordinatesWithDirection(direction);
                 point.X += X;
                 point.Y += Y;
+
+                if (X + point.X < 0 || X + point.X > 19 || Y + point.Y < 0 || Y + point.Y > 19) continue;
 
                 List<Animal> animals = Map.GetAnimalsInPoint(point);
                 foreach (var animal in animals)

@@ -11,7 +11,7 @@ namespace WolfIsland.Animals
         public override List<Type> SuitableBiomes { get; } = new List<Type> { typeof(Plain) };
         public override string Symbol { get; set; } = "\ud83d\udc3a";
         protected override IMap Map { get; set; }
-        public override List<Type> Hunts { get; set; } = new List<Type> { typeof(Rabbit) };
+        public override HashSet<Type> Hunts { get; set; } = new HashSet<Type> { typeof(Rabbit) };
         protected override double Score { get; set; } = 1;
         protected override double ScoreReducing { get; set; } = 0.1;
 

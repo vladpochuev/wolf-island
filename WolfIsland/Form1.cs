@@ -17,7 +17,6 @@ namespace WolfIsland
         private Island Island { get; set; }
         private LifeCycle LifeCycle { get; set; }
         private List<Label> AnimalLabels { get; set; }
-        private List<Animal>[,] AnimalsInCells = new List<Animal>[20, 20];
 
         public Form1()
         {
@@ -40,32 +39,17 @@ namespace WolfIsland
 
         private void DrawAnimals()
         {
-            PutAnimalsInCells();
             DrawCells();
-        }
-
-        private void PutAnimalsInCells()
-        {
-            List<Animal> animals = Island.Animals;
-
-            foreach (var animal in animals)
-            {
-                if (AnimalsInCells[animal.X, animal.Y] == null)
-                {
-                    AnimalsInCells[animal.X, animal.Y] = new List<Animal>();
-                }
-
-                AnimalsInCells[animal.X, animal.Y].Add(animal);
-            }
         }
 
         private void DrawCells()
         {
-            for (var i = 0; i < AnimalsInCells.GetLength(0); i++)
+            List<Animal>[,] animalsInCells = Island.AnimalsInCells;
+            for (var i = 0; i < animalsInCells.GetLength(0); i++)
             {
-                for (var j = 0; j < AnimalsInCells.GetLength(1); j++)
+                for (var j = 0; j < animalsInCells.GetLength(1); j++)
                 {
-                    DrawAnimalsInCell(AnimalsInCells[i, j]);
+                    DrawAnimalsInCell(animalsInCells[i, j]);
                 }
             }
         }
@@ -74,6 +58,12 @@ namespace WolfIsland
         {
             if (animalsInCell == null || animalsInCell.Count == 0) return;
 
+            List<List<Animal>> typesOfAnimals = GroupAnimalsInCell(animalsInCell);
+            DrawLabels(typesOfAnimals);
+        }
+
+        private List<List<Animal>> GroupAnimalsInCell(List<Animal> animalsInCell)
+        {
             List<List<Animal>> typesOfAnimals = new List<List<Animal>>();
             List<Type> usedAnimals = new List<Type>();
 
@@ -90,6 +80,11 @@ namespace WolfIsland
                 typesOfAnimals[animalTypeId].Add(a);
             }
 
+            return typesOfAnimals;
+        }
+
+        private void DrawLabels(List<List<Animal>> typesOfAnimals)
+        {
             for (var i = 0; i < typesOfAnimals.Count; i++)
             {
                 List<Animal> typesOfAnimal = typesOfAnimals[i];
@@ -99,7 +94,7 @@ namespace WolfIsland
                 label.Text = typesOfAnimal.Count + Convert.ToString(animal.Symbol);
                 label.ForeColor = animal.SymbolColor;
                 label.BackColor = Island.Biomes[animal.X, animal.Y].Color;
-                label.Font = new Font("Arial", (int) (CellHeight / 6), FontStyle.Bold);
+                label.Font = new Font("Arial", CellHeight / 6, FontStyle.Bold);
                 label.AutoSize = true;
                 label.Location = new Point(animal.X * CellWidth, animal.Y * CellHeight + MarginHeight + i * (CellHeight / typesOfAnimals.Count));
                 Controls.Add(label);
@@ -136,7 +131,6 @@ namespace WolfIsland
             }
 
             AnimalLabels = new List<Label>();
-            AnimalsInCells = new List<Animal>[20, 20];
         }
 
         private void toolStripNext_Click(object sender, EventArgs e)

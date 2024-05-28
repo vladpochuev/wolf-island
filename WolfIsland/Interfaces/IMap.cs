@@ -13,6 +13,6 @@ namespace WolfIsland.Interfaces
         void MakeAnimalsMove();
         List<Animal> GetAnimalsInPoint(Point point);
         void CreateAnimal(Animal animal);
-        void RemoveAnimal(Animal animal);
+        bool RemoveAnimal(Animal animal);
     }
 }
