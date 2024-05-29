@@ -1,12 +1,11 @@
 using System;
-using WolfIsland.Environment;
 using WolfIsland.Interfaces;
 
 namespace WolfIsland
 {
     public class LifeCycle
     {
-        public int NumberOfMoves = 0;
+        public int NumberOfMoves { get; set; }
         private IMap Map { get; set; }
 
         public LifeCycle(IMap map)
