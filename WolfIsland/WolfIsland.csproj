@@ -52,6 +52,7 @@
         <Compile Include="Animals\Wolf.cs" />
         <Compile Include="Animals\WolfF.cs" />
         <Compile Include="Animals\WolfM.cs" />
+        <Compile Include="FormButtonState.cs" />
         <Compile Include="Direction.cs" />
         <Compile Include="Environment\Biome.cs" />
         <Compile Include="Environment\Island.cs" />

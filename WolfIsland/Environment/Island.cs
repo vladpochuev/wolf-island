@@ -20,9 +20,9 @@ namespace WolfIsland.Environment
             TypesOfAnimal = new List<List<Animal>>();
             for (int i = 0; i < 1; i++)
             {
-                TypesOfAnimal.Add(new List<Animal> { new WolfM(5, 5, this) });
-                TypesOfAnimal.Add(new List<Animal> {new WolfF(5, 5, this)});
-                TypesOfAnimal.Add(new List<Animal> { new Rabbit(4, 5, this) });
+                TypesOfAnimal.Add(new List<Animal>()); // WolfM
+                TypesOfAnimal.Add(new List<Animal>()); // WolfF
+                TypesOfAnimal.Add(new List<Animal>()); // Rabbit
             }
 
             AnimalsInCells = new List<Animal>[20, 20];
@@ -101,7 +101,7 @@ namespace WolfIsland.Environment
             return false;
         }
 
-        private void FillMapRandom()
+        public void FillMapRandom()
         {
             for (int i = 0; i < Biomes.GetLength(0); i++)
             {

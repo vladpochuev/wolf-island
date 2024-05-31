@@ -16,7 +16,9 @@ namespace WolfIsland
         private int CellWidth { get; set; }
         private Island Island { get; set; }
         private LifeCycle LifeCycle { get; set; }
-        private List<Label> AnimalLabels { get; set; }
+        private PictureBox[,] PictureBoxes { get; set; }
+        private List<ToolStripButton> CreateButtons { get; set; }
+        private FormButtonState ButtonState { get; set; } = FormButtonState.None;
 
         public Form1()
         {
@@ -29,12 +31,26 @@ namespace WolfIsland
             FieldWidth = FieldHeight;
             CellHeight = FieldHeight / 20;
             CellWidth = FieldWidth / 20;
-            AnimalLabels = new List<Label>();
+            PictureBoxes = new PictureBox[20, 20];
             Island = new Island();
             LifeCycle = new LifeCycle(Island);
 
+            AddCreateButtons();
             DrawBiomes();
             DrawAnimals();
+        }
+
+        private void AddCreateButtons()
+        {
+            CreateButtons = new List<ToolStripButton>{plainBtn, oceanBtn, rabbitBtn, wolfMBtn, wolfFBtn};
+        }
+
+        private void UncheckAllCreateButtons()
+        {
+            foreach (var button in CreateButtons)
+            {
+                button.Checked = false;
+            }
         }
 
         private void DrawAnimals()
@@ -67,17 +83,17 @@ namespace WolfIsland
             List<List<Animal>> typesOfAnimals = new List<List<Animal>>();
             List<Type> usedAnimals = new List<Type>();
 
-            foreach (var a in animalsInCell)
+            foreach (var animal in animalsInCell)
             {
-                int animalTypeId = usedAnimals.IndexOf(a.GetType());
+                int animalTypeId = usedAnimals.IndexOf(animal.GetType());
                 if (animalTypeId == -1)
                 {
-                    usedAnimals.Add(a.GetType());
+                    usedAnimals.Add(animal.GetType());
                     typesOfAnimals.Add(new List<Animal>());
                     animalTypeId = typesOfAnimals.Count - 1;
                 }
 
-                typesOfAnimals[animalTypeId].Add(a);
+                typesOfAnimals[animalTypeId].Add(animal);
             }
 
             return typesOfAnimals;
@@ -90,16 +106,22 @@ namespace WolfIsland
                 List<Animal> typesOfAnimal = typesOfAnimals[i];
                 Animal animal = typesOfAnimal[0];
                 Label label = new Label();
-                AnimalLabels.Add(label);
                 label.Text = typesOfAnimal.Count + Convert.ToString(animal.Symbol);
                 label.ForeColor = animal.SymbolColor;
-                label.BackColor = Island.Biomes[animal.X, animal.Y].Color;
+                label.BackColor = Color.Transparent;
                 label.Font = new Font("Arial", CellHeight / 6, FontStyle.Bold);
                 label.AutoSize = true;
-                label.Location = new Point(animal.X * CellWidth, animal.Y * CellHeight + MarginHeight + i * (CellHeight / typesOfAnimals.Count));
-                Controls.Add(label);
+                label.Location = new Point(0, i * (CellHeight / typesOfAnimals.Count));
+                PictureBoxes[animal.X, animal.Y].Controls.Add(label);
+                label.Click += RedirectLabelClick;
                 label.BringToFront();
             }
+        }
+
+        private void RedirectLabelClick(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            ChangePictureBoxContent(label.Parent, e);
         }
 
         private void DrawBiomes()
@@ -114,23 +136,121 @@ namespace WolfIsland
             }
         }
 
+        private void RemoveBiomes()
+        {
+            Biome[,] biomes = Island.Biomes;
+            for (int i = 0; i < biomes.GetLength(0); i++)
+            {
+                for (int j = 0; j < biomes.GetLength(1); j++)
+                {
+                    RemoveBiome(PictureBoxes[i, j], i, j);
+                }
+            }
+        }
+
         private void DrawBiome(int x, int y, Color color)
         {
             PictureBox pictureBox = new PictureBox();
             pictureBox.BackColor = color;
             pictureBox.Location = new Point(x * CellWidth, y * CellHeight + MarginHeight);
             pictureBox.Size = new Size(CellWidth, CellHeight);
+            pictureBox.Click += ChangePictureBoxContent;
+            PictureBoxes[x, y] = pictureBox;
             Controls.Add(pictureBox);
+        }
+
+        private void ChangePictureBoxContent(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = (PictureBox)sender;
+            int x = pictureBox.Location.X / CellWidth;
+            int y = (pictureBox.Location.Y - MarginHeight) / CellHeight;
+
+            if (ButtonState == FormButtonState.Ocean
+                || ButtonState == FormButtonState.Plain)
+            {
+                ChangeBiome(pictureBox, x, y);
+            }
+            else if (ButtonState == FormButtonState.Rabbit
+                     || ButtonState == FormButtonState.WolfM
+                     || ButtonState == FormButtonState.WolfF)
+            {
+                AddAnimal(x, y);
+            }
+        }
+
+        private void ChangeBiome(PictureBox pictureBox, int x, int y)
+        {
+            if (ButtonState == FormButtonState.Ocean)
+            {
+                Island.Biomes[x, y] = new Ocean();
+            }
+            else if (ButtonState == FormButtonState.Plain)
+            {
+                Island.Biomes[x, y] = new Plain();
+            }
+
+            UpdateBiome(pictureBox, x, y);
+        }
+
+        private void UpdateBiomes()
+        {
+            RemoveBiomes();
+            DrawBiomes();
+        }
+
+        private void UpdateBiome(PictureBox pictureBox, int x, int y)
+        {
+            RemoveBiome(pictureBox, x, y);
+            DrawBiome(x, y, Island.Biomes[x, y].Color);
+        }
+
+        private void RemoveBiome(PictureBox pictureBox, int x, int y)
+        {
+            Controls.Remove(pictureBox);
+            foreach (var animal in Island.AnimalsInCells[x, y].ToArray())
+            {
+                Island.RemoveAnimal(animal);
+            }
+        }
+
+        private void AddAnimal(int x, int y)
+        {
+            Animal animal = null;
+
+            if (ButtonState == FormButtonState.Rabbit)
+            {
+                animal = new Rabbit(x, y, Island);
+            }
+            else if (ButtonState == FormButtonState.WolfM)
+            {
+                animal = new WolfM(x, y, Island);
+            }
+            else if (ButtonState == FormButtonState.WolfF)
+            {
+                animal = new WolfF(x, y, Island);
+            }
+
+            if (!animal.SuitableBiomes.Contains(Island.Biomes[x, y].GetType()))
+            {
+                Console.WriteLine(
+                    $"Biome {Island.Biomes[x, y].GetType().Name} is not suitable for an animal {animal.GetType().Name}");
+                return;
+            }
+
+            Island.CreateAnimal(animal);
+            PictureBoxes[x, y].Controls.Clear();
+            DrawAnimalsInCell(Island.AnimalsInCells[x, y]);
         }
 
         private void RemoveAnimalsFromMap()
         {
-            foreach (var label in AnimalLabels)
+            for (int i = 0; i < PictureBoxes.GetLength(0); i++)
             {
-                Controls.Remove(label);
+                for (int j = 0; j < PictureBoxes.GetLength(1); j++)
+                {
+                    PictureBoxes[i, j].Controls.Clear();
+                }
             }
-
-            AnimalLabels = new List<Label>();
         }
 
         private void toolStripNext_Click(object sender, EventArgs e)
@@ -143,6 +263,47 @@ namespace WolfIsland
         private void Form1_Load(object sender, EventArgs e)
         {
             InitializeFields();
+        }
+
+        private void plainBtn_Click(object sender, EventArgs e)
+        {
+            ButtonState = FormButtonState.Plain;
+            UncheckAllCreateButtons();
+            plainBtn.Checked = true;
+        }
+
+        private void oceanBtn_Click(object sender, EventArgs e)
+        {
+            ButtonState = FormButtonState.Ocean;
+            UncheckAllCreateButtons();
+            oceanBtn.Checked = true;
+        }
+
+        private void rabbitBtn_Click(object sender, EventArgs e)
+        {
+            ButtonState = FormButtonState.Rabbit;
+            UncheckAllCreateButtons();
+            rabbitBtn.Checked = true;
+        }
+
+        private void wolfMBtn_Click(object sender, EventArgs e)
+        {
+            ButtonState = FormButtonState.WolfM;
+            UncheckAllCreateButtons();
+            wolfMBtn.Checked = true;
+        }
+
+        private void wolfFBtn_Click(object sender, EventArgs e)
+        {
+            ButtonState = FormButtonState.WolfF;
+            UncheckAllCreateButtons();
+            wolfFBtn.Checked = true;
+        }
+
+        private void randomBtn_Click(object sender, EventArgs e)
+        {
+            Island.FillMapRandom();
+            UpdateBiomes();
         }
     }
 }
