@@ -46,12 +46,14 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="AnimalsComposer.cs" />
         <Compile Include="Animals\Animal.cs" />
         <Compile Include="Animals\Predator.cs" />
         <Compile Include="Animals\Rabbit.cs" />
         <Compile Include="Animals\Wolf.cs" />
         <Compile Include="Animals\WolfF.cs" />
         <Compile Include="Animals\WolfM.cs" />
+        <Compile Include="ButtonStateFactory.cs" />
         <Compile Include="FormButtonState.cs" />
         <Compile Include="Direction.cs" />
         <Compile Include="Environment\Biome.cs" />

@@ -63,7 +63,7 @@
             this.toolStripNext.Size = new System.Drawing.Size(36, 36);
             this.toolStripNext.Text = "toolStripButton2";
             this.toolStripNext.ToolTipText = "Next move";
-            this.toolStripNext.Click += new System.EventHandler(this.toolStripNext_Click);
+            this.toolStripNext.Click += new System.EventHandler(this.MakeNextMove);
             // 
             // toolStripSeparator1
             // 

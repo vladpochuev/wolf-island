@@ -14,6 +14,10 @@ namespace WolfIsland.Animals
         {
         }
 
+        public WolfM()
+        {
+        }
+
         public override void MakeMove()
         {
             if (!TryHunt() && !TryBreed())
@@ -32,7 +36,7 @@ namespace WolfIsland.Animals
                 point.X += X;
                 point.Y += Y;
 
-                if (X + point.X < 0 || X + point.X > 19 || Y + point.Y < 0 || Y + point.Y > 19) continue;
+                if (point.X < 0 || point.X > 19 || point.Y < 0 || point.Y > 19) continue;
 
                 List<Animal> animals = Map.GetAnimalsInPoint(point);
                 foreach (var animal in animals)

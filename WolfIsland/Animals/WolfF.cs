@@ -11,6 +11,10 @@ namespace WolfIsland.Animals
         {
         }
 
+        public WolfF()
+        {
+        }
+
         public override void MakeMove()
         {
             if (!TryHunt())

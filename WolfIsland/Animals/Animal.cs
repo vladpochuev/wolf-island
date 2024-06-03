@@ -14,7 +14,7 @@ namespace WolfIsland.Animals
         public abstract Color SymbolColor { get; set; }
         public abstract List<Type> SuitableBiomes { get; }
         public uint Id { get; set; }
-        protected abstract IMap Map { get; set; }
+        public abstract IMap Map { protected get; set; }
         protected static Random Random { get; set; }
         private static uint Counter { get; set; } = 1;
 
@@ -23,6 +23,13 @@ namespace WolfIsland.Animals
             X = x;
             Y = y;
             Map = map;
+            Random = new Random();
+            Id = Counter;
+            Counter++;
+        }
+
+        protected Animal()
+        {
             Random = new Random();
             Id = Counter;
             Counter++;
