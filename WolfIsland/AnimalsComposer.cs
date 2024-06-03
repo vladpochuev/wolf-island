@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 using WolfIsland.Animals;
 using WolfIsland.Environment;
+using WolfIsland.Interfaces;
 
 namespace WolfIsland
 {
     public class AnimalsComposer
     {
-        private Island Island { get; set; }
+        private IMap Map { get; set; }
         private List<Animal>[,] AnimalsInCells { get; set; }
 
-        public AnimalsComposer(int width, int height, Island island)
+        public AnimalsComposer(int width, int height, IMap map)
         {
-            Island = island;
+            Map = map;
             AnimalsInCells = new List<Animal>[width, height];
         }
 
@@ -35,7 +36,7 @@ namespace WolfIsland
 
         private void FillCells()
         {
-            foreach (var typeOfAnimal in Island.TypesOfAnimal.ToArray())
+            foreach (var typeOfAnimal in Map.TypesOfAnimal.ToArray())
             {
                 foreach (var animal in typeOfAnimal)
                 {
@@ -77,7 +78,7 @@ namespace WolfIsland
         {
             foreach (var animal in AnimalsInCells[x, y].ToArray())
             {
-                Island.RemoveAnimal(animal);
+                Map.RemoveAnimal(animal);
             }
         }
     }

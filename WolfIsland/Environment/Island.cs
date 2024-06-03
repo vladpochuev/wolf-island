@@ -9,8 +9,8 @@ namespace WolfIsland.Environment
     public class Island : IMap
     {
         public Biome[,] Biomes { get; set; }
-        public List<List<Animal>> TypesOfAnimal { get; set; }
-        public List<Type> AnimalsOrder { get; set; } = new List<Type> { typeof(WolfM), typeof(WolfF), typeof(Rabbit) };
+        public List<List<Animal>> TypesOfAnimal { get; }
+        public List<Type> AnimalsOrder { get; } = new List<Type> { typeof(WolfM), typeof(WolfF), typeof(Rabbit) };
         private Random Random { get; set; }
 
         public Island(int width, int height)

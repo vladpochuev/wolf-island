@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using WolfIsland.Animals;
 using WolfIsland.Environment;
+using WolfIsland.Interfaces;
 
 namespace WolfIsland
 {
@@ -16,7 +17,7 @@ namespace WolfIsland
         private const int MarginHeight = 35;
         private int CellHeight { get; set; }
         private int CellWidth { get; set; }
-        private Island Island { get; set; }
+        private IMap Map { get; set; }
         private AnimalsComposer AnimalsComposer { get; set; }
         private LifeCycle LifeCycle { get; set; }
         private PictureBox[,] PictureBoxes { get; set; }
@@ -35,9 +36,9 @@ namespace WolfIsland
             CellHeight = FieldHeight / CellQuantityHeight;
             CellWidth = FieldWidth / CellQuantityWidth;
             PictureBoxes = new PictureBox[CellQuantityWidth, CellQuantityHeight];
-            Island = new Island(CellQuantityWidth, CellQuantityHeight);
-            AnimalsComposer = new AnimalsComposer(CellQuantityWidth, CellQuantityHeight, Island);
-            LifeCycle = new LifeCycle(Island);
+            Map = new Island(CellQuantityWidth, CellQuantityHeight);
+            AnimalsComposer = new AnimalsComposer(CellQuantityWidth, CellQuantityHeight, Map);
+            LifeCycle = new LifeCycle(Map);
 
             AddCreateButtons();
             AnimalsComposer.Fill();
@@ -98,7 +99,7 @@ namespace WolfIsland
 
         private void DrawBiomes()
         {
-            Biome[,] biomes = Island.Biomes;
+            Biome[,] biomes = Map.Biomes;
             for (int i = 0; i < biomes.GetLength(0); i++)
             {
                 for (int j = 0; j < biomes.GetLength(1); j++)
@@ -121,7 +122,7 @@ namespace WolfIsland
 
         private void RemoveBiomes()
         {
-            Biome[,] biomes = Island.Biomes;
+            Biome[,] biomes = Map.Biomes;
             for (int i = 0; i < biomes.GetLength(0); i++)
             {
                 for (int j = 0; j < biomes.GetLength(1); j++)
@@ -146,7 +147,7 @@ namespace WolfIsland
         private void UpdateBiome(int x, int y)
         {
             RemoveBiome(x, y);
-            DrawBiome(x, y, Island.Biomes[x, y].Color);
+            DrawBiome(x, y, Map.Biomes[x, y].Color);
         }
 
         private void ChangePictureBoxContent(object sender, EventArgs e)
@@ -166,28 +167,28 @@ namespace WolfIsland
             {
                 animal.X = x;
                 animal.Y = y;
-                animal.Map = Island;
+                animal.Map = Map;
                 AddAnimal(x, y, animal);
             }
         }
 
         private void ChangeBiome(int x, int y, Biome biome)
         {
-            Island.Biomes[x, y] = biome;
+            Map.Biomes[x, y] = biome;
             UpdateBiome(x, y);
         }
 
         private void AddAnimal(int x, int y, Animal animal)
         {
 
-            if (!animal.SuitableBiomes.Contains(Island.Biomes[x, y].GetType()))
+            if (!animal.SuitableBiomes.Contains(Map.Biomes[x, y].GetType()))
             {
                 Console.WriteLine(
-                    $"Biome {Island.Biomes[x, y].GetType().Name} is not suitable for an animal {animal.GetType().Name}");
+                    $"Biome {Map.Biomes[x, y].GetType().Name} is not suitable for an animal {animal.GetType().Name}");
                 return;
             }
 
-            Island.CreateAnimal(animal);
+            Map.CreateAnimal(animal);
             RemoveLabelsFromCell(x, y);
             AnimalsComposer.Fill();
             DrawAnimalsInCell(x, y);
@@ -265,7 +266,7 @@ namespace WolfIsland
 
         private void randomBtn_Click(object sender, EventArgs e)
         {
-            Island.FillMapRandom();
+            Map.FillMapRandom();
             UpdateBiomes();
         }
     }
