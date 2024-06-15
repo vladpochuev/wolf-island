@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class LifeCycle {
+    + NumberOfMoves : int <<get>> <<set>>
+    - Map : IMap <<get>> <<set>>
+
+    + {method} MakeNextMove : void
+}
+
+@enduml

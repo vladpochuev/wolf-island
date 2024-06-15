@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface IMap
+class Island
+
+IMap <|.. Island
+
+interface IMap {
+    + {abstract} Biomes : Biome[,] <<get>>
+    + {abstract} TypesOfAnimals : List<List<Animal>> <<get>>
+    + {abstract} AnimalsOrder : List<Type> <<get>>
+
+    + {abstract} {method} SetBiome : void
+    + {abstract} {method} MakeAnimalsMove : void
+    + {abstract} {method} GetAnimalsInPoint : List<Animal>
+    + {abstract} {method} CreateAnimal : void
+    + {abstract} {method} RemoveAnimal : void
+    + {abstract} {method} FillMapRandom : void
+}
+
+class Island {
+    + Biomes : Biome[,] <<get>>
+    + TypesOfAnimals : List<List<Animal>> <<get>>
+    + AnimalsOrder : List<Type> <<get>>
+    - Random : Random <<get>> <<set>>
+
+    + {method} SetBiome : void
+    + {method} MakeAnimalsMove : void
+    + {method} GetAnimalsInPoint : List<Animal>
+    + {method} CreateAnimal : void
+    + {method} RemoveAnimal : void
+    + {method} FillMapRandom : void
+}
+
+@enduml

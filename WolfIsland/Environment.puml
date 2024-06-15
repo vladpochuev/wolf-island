@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Biome
+class Plain
+class Ocean
+
+Biome <|-- Plain
+Biome <|-- Ocean
+
+abstract class Biome {
+    + {abstract} Color : Color <<get>> <<set>>
+}
+
+class Plain {
++ Color : Color <<get>> <<set>>
+}
+
+class Ocean {
++ Color : Color <<get>> <<set>>
+}
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml

@@ -5,7 +5,7 @@ namespace WolfIsland.Animals
 {
     public class WolfF : Wolf
     {
-        public override Color SymbolColor { get; set; } = Color.HotPink;
+        public override Color SymbolColor { get; } = Color.HotPink;
 
         public WolfF(int x, int y, IMap map) : base(x, y, map)
         {

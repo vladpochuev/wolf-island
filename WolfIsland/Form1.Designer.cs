@@ -51,7 +51,7 @@
             this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.toolStripNext, this.toolStripSeparator1, this.plainBtn, this.oceanBtn, this.randomBtn, this.toolStripSeparator2, this.rabbitBtn, this.wolfMBtn, this.wolfFBtn });
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(1264, 39);
+            this.toolStripMain.Size = new System.Drawing.Size(522, 39);
             this.toolStripMain.TabIndex = 0;
             // 
             // toolStripNext
@@ -154,10 +154,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 821);
+            this.ClientSize = new System.Drawing.Size(522, 259);
             this.Controls.Add(this.toolStripMain);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Wolf Island";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStripMain.ResumeLayout(false);

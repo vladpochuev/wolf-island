@@ -1,0 +1,100 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface IMovable
+interface IPlaceable
+interface IBreedable
+abstract class Animal
+class Rabbit
+abstract class Predator
+abstract class Wolf
+class WolfM
+class WolfF
+
+IMovable <|.. Animal
+IPlaceable <|.. Animal
+IBreedable <|.. WolfM
+
+Animal <|-- Rabbit
+Animal <|-- Predator
+Predator <|-- Wolf
+Wolf <|-- WolfM
+Wolf <|-- WolfF
+
+interface IMovable {
+    + {method} {abstract} MakeMove : void
+}
+
+interface IPlaceable {
+    + {abstract} X : int <<get>> <<set>>
+    + {abstract} Y :  int <<get>> <<set>>
+}
+
+abstract class Animal {
+    + {abstract} Symbol : string <<get>>
+    + {abstract} SymbolColor : Color <<get>>
+    + {abstract} SuitableBiomes : List<Type> <<get>>
+    # {abstract} Map : IMap <<get>> <<set>>
+    + X : int <<get>> <<set>>
+    + Y :  int <<get>> <<set>>
+
+    + {method} {abstract} MakeMove : void
+    # {method} Move : void
+    # {method} ChangeLocation : bool
+    # {method} {static} GetCoordinatesWithDirection : Point
+}
+
+class Rabbit {
+    + Symbol : string <<get>>
+    + SymbolColor : Color <<get>>
+    + SuitableBiomes : List<Type> <<get>>
+    # Map : IMap <<get>> <<set>>
+    - ChanceOfBreeding : double
+
+    + {method} MakeMove : void
+    - {method} Breed : void
+}
+
+
+abstract class Predator {
+    + {abstract} Hunts : HashSet<Type> <<get>>
+    # {abstract} Score : double <<get>> <<set>>
+    # {abstract} ScoreReducing : double <<get>> <<set>>
+
+    + {method} MakeMove : void
+    # {method} TryHunt : bool
+    # {method} Eat : void
+    # {method} Starve : void
+    - {method} Hunt : void
+    - {method} StarveToDeath : void
+}
+
+class Wolf {
+    + Symbol : string <<get>>
+    + SuitableBiomes : List<Type> <<get>>
+    + Hunts : HashSet<Type> <<get>>
+    # Map : IMap <<get>> <<set>>
+    # Score : double <<get>> <<set>>
+    # ScoreReducing : double <<get>> <<set>>
+}
+
+interface IBreedable {
+    + {method} {abstract} Breed : void
+}
+
+class WolfM {
+    + SymbolColor : Color <<get>>
+    + BreedsWith : Type
+
+    + {method} MakeMove : void
+    + {method} Breed : void
+    - {method} TryBreed : bool
+}
+
+class WolfF {
+    + SymbolColor : Color <<get>>
+
+    + {method} MakeMove : void
+}
+
+@enduml

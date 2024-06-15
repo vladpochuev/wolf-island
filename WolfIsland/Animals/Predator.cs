@@ -7,7 +7,7 @@ namespace WolfIsland.Animals
 {
     public abstract class Predator : Animal
     {
-        public abstract HashSet<Type> Hunts { get; set; }
+        public abstract HashSet<Type> Hunts { get; }
         protected abstract double Score { get; set; }
         protected abstract double ScoreReducing { get; set; }
 
@@ -54,7 +54,7 @@ namespace WolfIsland.Animals
             ChangeLocation(direction);
         }
 
-        private void Eat(Animal animal)
+        protected void Eat(Animal animal)
         {
             Score++;
             Map.RemoveAnimal(animal);

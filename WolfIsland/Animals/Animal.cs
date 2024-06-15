@@ -9,11 +9,10 @@ namespace WolfIsland.Animals
     {
         public int X { get; set; }
         public int Y { get; set; }
-
-        public abstract string Symbol { get; set; }
-        public abstract Color SymbolColor { get; set; }
+        public abstract string Symbol { get; }
+        public abstract Color SymbolColor { get; }
         public abstract List<Type> SuitableBiomes { get; }
-        public uint Id { get; set; }
+        public uint Id { get; }
         public abstract IMap Map { protected get; set; }
         protected static Random Random { get; set; }
         private static uint Counter { get; set; } = 1;

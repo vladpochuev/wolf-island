@@ -4,6 +4,6 @@ namespace WolfIsland.Environment
 {
     public abstract class Biome
     {
-        public Color Color { get; set; }
+        public abstract Color Color { get; set; }
     }
 }

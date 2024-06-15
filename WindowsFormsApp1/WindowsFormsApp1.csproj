@@ -4,10 +4,10 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{7B591D15-CFDB-493A-900D-02FFF44F1CE1}</ProjectGuid>
+        <ProjectGuid>{6A358A01-8A1A-4A56-AABA-F09AC191A1F4}</ProjectGuid>
         <OutputType>WinExe</OutputType>
-        <RootNamespace>WolfIsland</RootNamespace>
-        <AssemblyName>WolfIsland</AssemblyName>
+        <RootNamespace>WindowsFormsApp1</RootNamespace>
+        <AssemblyName>WindowsFormsApp1</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,36 +46,14 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AnimalsComposer.cs" />
-        <Compile Include="Animals\Animal.cs" />
-        <Compile Include="Animals\Predator.cs" />
-        <Compile Include="Animals\Rabbit.cs" />
-        <Compile Include="Animals\Wolf.cs" />
-        <Compile Include="Animals\WolfF.cs" />
-        <Compile Include="Animals\WolfM.cs" />
-        <Compile Include="ButtonStateFactory.cs" />
-        <Compile Include="FormButtonState.cs" />
-        <Compile Include="Direction.cs" />
-        <Compile Include="Environment\Biome.cs" />
-        <Compile Include="Environment\Island.cs" />
-        <Compile Include="Environment\Ocean.cs" />
-        <Compile Include="Environment\Plain.cs" />
         <Compile Include="Form1.cs">
             <SubType>Form</SubType>
         </Compile>
         <Compile Include="Form1.Designer.cs">
             <DependentUpon>Form1.cs</DependentUpon>
         </Compile>
-        <Compile Include="Interfaces\IBreedable.cs" />
-        <Compile Include="Interfaces\IMap.cs" />
-        <Compile Include="Interfaces\IMovable.cs" />
-        <Compile Include="Interfaces\IPlaceable.cs" />
-        <Compile Include="LifeCycle.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <EmbeddedResource Include="Form1.resx">
-          <DependentUpon>Form1.cs</DependentUpon>
-        </EmbeddedResource>
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -97,12 +75,6 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config"/>
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="Animals.puml" />
-      <Content Include="Environment.puml" />
-      <Content Include="LifeCycle.puml" />
-      <Content Include="Map.puml" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

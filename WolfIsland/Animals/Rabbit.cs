@@ -11,8 +11,8 @@ namespace WolfIsland.Animals
         public override List<Type> SuitableBiomes { get; } = new List<Type> { typeof(Plain) };
         public override IMap Map { protected get; set; }
 
-        public override string Symbol { get; set; } = "\ud83d\udc07";
-        public override Color SymbolColor { get; set; } = Color.White;
+        public override string Symbol { get; } = "\ud83d\udc07";
+        public override Color SymbolColor { get; } = Color.White;
         private const double ChanceOfBreeding = 0.2;
 
         public Rabbit(int x, int y, IMap map) : base(x, y, map)

@@ -7,7 +7,7 @@ namespace WolfIsland.Animals
 {
     public class WolfM : Wolf, IBreedable
     {
-        public override Color SymbolColor { get; set; } = Color.SkyBlue;
+        public override Color SymbolColor { get; } = Color.SkyBlue;
         public readonly Type BreadsWith = typeof(WolfF);
 
         public WolfM(int x, int y, IMap map) : base(x, y, map)
