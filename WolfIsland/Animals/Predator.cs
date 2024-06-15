@@ -19,42 +19,21 @@ namespace WolfIsland.Animals
         {
         }
 
-        protected bool TryHunt()
+        protected void Hunt(Animal animal)
         {
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                Point point = GetCoordinatesWithDirection(direction);
-                point.X += X;
-                point.Y += Y;
+            if (!Hunts.Contains(animal.GetType())) return;
 
-                if (point.X < 0 || point.X > 19 || point.Y < 0 || point.Y > 19) continue;
-
-                List<Animal> animals = Map.GetAnimalsInPoint(point);
-                foreach (var animal in animals)
-                {
-                    if (Hunts.Contains(animal.GetType()))
-                    {
-                        Hunt(animal, direction);
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private void Hunt(Animal animal, Direction direction)
-        {
             if (X == animal.X && Y == animal.Y)
             {
                 Eat(animal);
                 return;
             }
 
+            Direction direction = GetWayToOtherAnimal(animal);
             ChangeLocation(direction);
         }
 
-        protected void Eat(Animal animal)
+        private void Eat(Animal animal)
         {
             Score++;
             Map.RemoveAnimal(animal);

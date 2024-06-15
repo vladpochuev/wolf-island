@@ -41,7 +41,20 @@ abstract class Animal {
     + {method} {abstract} MakeMove : void
     # {method} Move : void
     # {method} ChangeLocation : bool
+    # {method} GetWayToOtherAnimal : Direction
     # {method} {static} GetCoordinatesWithDirection : Point
+}
+
+enum Direction {
+    Center,
+    Top,
+    RightTop,
+    Right,
+    RightBottom,
+    Bottom,
+    LeftBottom,
+    Left,
+    LeftTop
 }
 
 class Rabbit {
@@ -62,10 +75,9 @@ abstract class Predator {
     # {abstract} ScoreReducing : double <<get>> <<set>>
 
     + {method} MakeMove : void
-    # {method} TryHunt : bool
-    # {method} Eat : void
     # {method} Starve : void
-    - {method} Hunt : void
+    # {method} Hunt : void
+    - {method} Eat : void
     - {method} StarveToDeath : void
 }
 
@@ -76,6 +88,8 @@ class Wolf {
     # Map : IMap <<get>> <<set>>
     # Score : double <<get>> <<set>>
     # ScoreReducing : double <<get>> <<set>>
+
+    # {method} TryHunt : bool
 }
 
 interface IBreedable {

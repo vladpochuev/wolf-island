@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using WolfIsland.Environment;
 using WolfIsland.Interfaces;
 
@@ -20,6 +21,30 @@ namespace WolfIsland.Animals
 
         protected Wolf()
         {
+        }
+
+        protected bool TryHunt()
+        {
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                Point point = GetCoordinatesWithDirection(direction);
+                point.X += X;
+                point.Y += Y;
+
+                if (point.X < 0 || point.X > 19 || point.Y < 0 || point.Y > 19) continue;
+
+                List<Animal> animals = Map.GetAnimalsInPoint(point);
+                foreach (var animal in animals)
+                {
+                    if (Hunts.Contains(animal.GetType()))
+                    {
+                        Hunt(animal);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace WolfIsland.Animals
                 {
                     if (BreadsWith == animal.GetType())
                     {
-                        Breed(animal, direction);
+                        Breed(animal);
                         return true;
                     }
                 }
@@ -52,8 +52,10 @@ namespace WolfIsland.Animals
             return false;
         }
 
-        public void Breed(Animal animal, Direction direction)
+        public void Breed(Animal animal)
         {
+            if (BreadsWith != animal.GetType()) return;
+
             if (X == animal.X && Y == animal.Y)
             {
                 Animal child;
@@ -68,10 +70,12 @@ namespace WolfIsland.Animals
                 }
 
                 Map.CreateAnimal(child);
-                Console.WriteLine($"{child.GetType().Name + child.Id} was born by {GetType().Name + Id} and {animal.GetType().Name + animal.Id}");
+                Console.WriteLine(
+                    $"{child.GetType().Name + child.Id} was born by {GetType().Name + Id} and {animal.GetType().Name + animal.Id}");
                 return;
             }
 
+            Direction direction = GetWayToOtherAnimal(animal);
             ChangeLocation(direction);
         }
     }

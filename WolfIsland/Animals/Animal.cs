@@ -16,6 +16,7 @@ namespace WolfIsland.Animals
         public abstract IMap Map { protected get; set; }
         protected static Random Random { get; set; }
         private static uint Counter { get; set; } = 1;
+        private static Dictionary<Direction, Point> DirectionInPoint { get; set; }
 
         protected Animal(int x, int y, IMap map)
         {
@@ -25,6 +26,7 @@ namespace WolfIsland.Animals
             Random = new Random();
             Id = Counter;
             Counter++;
+            InitDirectionsDictionary();
         }
 
         protected Animal()
@@ -32,6 +34,23 @@ namespace WolfIsland.Animals
             Random = new Random();
             Id = Counter;
             Counter++;
+            InitDirectionsDictionary();
+        }
+
+        private void InitDirectionsDictionary()
+        {
+            DirectionInPoint = new Dictionary<Direction, Point>
+            {
+                { Direction.Bottom, new Point(0, 1) },
+                { Direction.RightBottom, new Point(1, 1) },
+                { Direction.Right, new Point(1, 0) },
+                { Direction.RightTop, new Point(1, -1) },
+                { Direction.Top, new Point(0, -1) },
+                { Direction.LeftTop, new Point(-1, -1) },
+                { Direction.Left, new Point(-1, 0) },
+                { Direction.LeftBottom, new Point(-1, 1) },
+                { Direction.Center, new Point(0, 0) }
+            };
         }
 
         public abstract void MakeMove();
@@ -62,22 +81,24 @@ namespace WolfIsland.Animals
             return false;
         }
 
+        protected Direction GetWayToOtherAnimal(Animal animal)
+        {
+            Point point = new Point(animal.X - X, animal.Y - Y);
+            Direction[] directions = (Direction[]) Enum.GetValues(typeof(Direction));
+            for (var i = 0; i < directions.Length; i++)
+            {
+                if (DirectionInPoint[directions[i]].Equals(point))
+                {
+                    return directions[i];
+                }
+            }
+
+            throw new ArgumentException("The animals are not close");
+        }
+
         protected static Point GetCoordinatesWithDirection(Direction direction)
         {
-            Dictionary<Direction, Point> dictionary = new Dictionary<Direction, Point>
-            {
-                { Direction.Top, new Point(0, 1) },
-                { Direction.RightTop, new Point(1, 1) },
-                { Direction.Right, new Point(1, 0) },
-                { Direction.RightBottom, new Point(1, -1) },
-                { Direction.Bottom, new Point(0, -1) },
-                { Direction.LeftBottom, new Point(-1, -1) },
-                { Direction.Left, new Point(-1, 0) },
-                { Direction.LeftTop, new Point(-1, 1) },
-                { Direction.Center, new Point(0, 0) }
-            };
-
-            return dictionary[direction];
+            return DirectionInPoint[direction];
         }
     }
 }
